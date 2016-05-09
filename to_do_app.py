@@ -1,3 +1,4 @@
+
 def Listing():
     print ("You saved the following to-do items:")
     listing = open('TaskList.md', 'r')
@@ -25,8 +26,8 @@ def AddingTask():
     print("Item added!")
 
 
-
 def MarkingTask():
+    Listing()
     complete = input("Which one you want to mark as completed: ")
     with open("TaskList.md", "r+") as f:
         LinesInFile = f.readlines()
@@ -37,7 +38,14 @@ def MarkingTask():
                 line_array = list(line)
                 line_array[3] = "x"
                 f.write("".join(line_array))
-                print("".join(line_array[6:len(line_array)-2]) + " is completed!")
+                print("".join(line_array[6:len(line_array)-1]) + " is completed!")
             else:
                 f.write(line)
             lines += 1
+
+commands = {"list" : Listing, "archive" : Archive,
+            "add" : AddingTask, "mark" : MarkingTask}
+
+
+cmd = input("Please specify a command [list, add, mark, archive]: ")
+commands[cmd]()
