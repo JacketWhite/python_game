@@ -8,7 +8,10 @@ def Listing():
         listing.close()
         lines = 1
         for i in text_in_file:
-            print("\t" + str(lines) + i, end = "")
+            if "[x]" not in i:
+                print("\t" + str(lines) + i, end = "")
+            else:
+                print('\033[92m' + "\t" + str(lines) + i + '\033[0m', end = "")
             lines += 1
         print("\n")
     else:
@@ -22,6 +25,9 @@ def Archive():
         for line in text_in_file:
             if "[x]" not in line:
                 f.write(line)
+            else:
+                with open("Archive.md", "a") as a:
+                    a.write(line)
         f.truncate()
     print("\n>>All completed tasks got deleted\n")
 
@@ -43,19 +49,40 @@ def MarkingTask():
                 line_array = list(line)
                 line_array[3] = "x"
                 f.write("".join(line_array))
-                print(">>" + "".join(line_array[6:len(line_array)-1])
-                        + " is completed!\n")
+                print('\033[92m' + ">>" + "".join(line_array[6:len(line_array)-1])
+                        + " is completed!\n" + '\033[0m')
             else:
                 f.write(line)
+        lines += 1
+
+def AListing():
+    if os.stat("Archive.md").st_size != 0:
+        print ("\n>>You did the following items:")
+        listing = open('Archive.md', 'r')
+        text_in_file = listing.readlines()
+        listing.close()
+        lines = 1
+        for i in text_in_file:
+            print('\033[94m' + "\t" + str(lines) + i, end = "" + '\033[0m')
             lines += 1
+        print("\n")
+    else:
+        print("\n>>Nothing was archived!")
+        main()
+
 
 
 def main():
     commands = {"list" : Listing, "archive" : Archive,
-                "add" : AddingTask, "mark" : MarkingTask}
-
-    cmd = input("\n>>>>Please specify a command [list, add, mark, archive]: ")
-    commands[cmd]()
-
+                "add" : AddingTask, "mark" : MarkingTask,
+                "alist" : AListing, "quit" : exit}
+    while True:
+        try:
+            cmd = input("\n>>>>Please specify a command [list, add, mark, archive, alist, quit]: ")
+            commands["".join(cmd.split())]()
+        except FileNotFoundError:
+            print("\n>>File not yet created!")
+        except KeyError:
+            print("\n>>No such command!")
 
 main()
