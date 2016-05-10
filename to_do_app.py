@@ -55,11 +55,11 @@ def MarkingTask():
                         + " is completed!\n" + '\033[0m')
             else:
                 f.write(line)
-        lines += 1
+            lines += 1
 
 def AListing():
     if os.stat("Archive.md").st_size != 0:
-        print ("\n>>You did the following items:")
+        print ("\n>>You did the following tasks:")
         listing = open('Archive.md', 'r')
         text_in_file = listing.readlines()
         listing.close()
@@ -78,7 +78,7 @@ def Stats():
     with open("TaskList.md", "r") as f:
         text_in_file = f.readlines()
         for i in text_in_file:
-            if "[x]" not in i:
+            if "[x]" in i:
                 x_lines += 1
             else:
                 empty_lines += 1
