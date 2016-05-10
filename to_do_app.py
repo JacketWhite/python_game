@@ -31,7 +31,7 @@ def Archive():
                 with open("Archive.md", "a") as a:
                     a.write(line)
         f.truncate()
-    print("\n>>All completed tasks got deleted\n")
+    print("\n>>All completed tasks got archived\n")
 
 def AddingTask():
     task = input("\n>>>>Add an item: ")
