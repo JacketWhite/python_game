@@ -13,10 +13,12 @@ def Listing():
             else:
                 print('\033[92m' + "\t" + str(lines) + i + '\033[0m', end = "")
             lines += 1
-        print("\n")
+        print("")
+        Stats()
     else:
         print("\n>>There's no more tasks to do!")
         main()
+
 
 def Archive():
     with open("TaskList.md", "r+") as f:
@@ -70,6 +72,17 @@ def AListing():
         print("\n>>Nothing was archived!")
         main()
 
+def Stats():
+    x_lines = 0
+    empty_lines = 0
+    with open("TaskList.md", "r") as f:
+        text_in_file = f.readlines()
+        for i in text_in_file:
+            if "[x]" not in i:
+                x_lines += 1
+            else:
+                empty_lines += 1
+    print(">>Unfinished tasks:", str(empty_lines), "\n>>Finished tasks:", str(x_lines))
 
 
 def main():
