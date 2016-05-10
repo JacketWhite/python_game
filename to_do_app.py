@@ -19,7 +19,6 @@ def Listing():
         print("\n>>There's no more tasks to do!")
         main()
 
-
 def Archive():
     with open("TaskList.md", "r+") as f:
         text_in_file = f.readlines()
@@ -84,14 +83,19 @@ def Stats():
                 empty_lines += 1
     print(">>Unfinished tasks:", str(empty_lines), "\n>>Finished tasks:", str(x_lines))
 
+def DelArch():
+    with open("Archive.md", "w") as f:
+        f.truncate()
+    print("\nArchived tasks deleted!")
 
 def main():
     commands = {"list" : Listing, "archive" : Archive,
                 "add" : AddingTask, "mark" : MarkingTask,
-                "alist" : AListing, "quit" : exit}
+                "alist" : AListing, "quit" : exit,
+                "delarch" : DelArch}
     while True:
         try:
-            cmd = input("\n>>>>Please specify a command [list, add, mark, archive, alist, quit]: ")
+            cmd = input("\n>>>>Please specify a command [list, add, mark, archive, alist, delarch, quit]: ")
             commands["".join(cmd.split())]()
         except FileNotFoundError:
             print("\n>>File not yet created!")
